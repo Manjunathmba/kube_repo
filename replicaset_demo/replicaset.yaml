@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: replica02
+  labels:
+   team: chips
+   bu: camera
+spec:
+ replicas: 4
+ selector:
+   matchLabels:
+     team: chips
+   matchExpressions:
+      - { key: team, operator: In, values: [chips]}
+ template:
+   metadata:
+     labels:
+       team: chips
+       bu: camera
+   spec:
+     containers:
+      - name : webapp
+        image: nginx
+        ports:
+         - containerPort: 99
+      - name: centos
+        image: centos:7
+        command:
+        - "bin/bash"
+        - "-c"
+        - "sleep 10000"
